@@ -1,30 +1,41 @@
+from django import forms
 from django.contrib import admin
-from .models import Category1, Category2, Category3, Product
+from mptt.admin import MPTTModelAdmin
+
+from .models import (
+    Category,
+    Product,
+    ProductImage,
+    ProductSpecification,
+    ProductSpecificationValue,
+    ProductType,
+)
+
+admin.site.register(Category, MPTTModelAdmin)
 
 
-@admin.register(Category1)
-class Category1Admin(admin.ModelAdmin):
-    list_display = ['name', 'slug']
-    prepopulated_fields = {'slug': ('name',)}
+class ProductSpecificationInline(admin.TabularInline):
+    model = ProductSpecification
 
 
-@admin.register(Category2)
-class Category2Admin(admin.ModelAdmin):
-    list_display = ['brand_name', 'slug']
-    prepopulated_fields = {'slug': ('brand_name',)}
+@admin.register(ProductType)
+class ProductTypeAdmin(admin.ModelAdmin):
+    inlines = [
+        ProductSpecificationInline,
+    ]
 
 
-@admin.register(Category3)
-class Category3Admin(admin.ModelAdmin):
-    list_display = ['algorith_or_models', 'slug']
-    prepopulated_fields = {'slug': ('algorith_or_models',)}
+class ProductImageInline(admin.TabularInline):
+    model = ProductImage
+
+
+class ProductSpecificationValueInline(admin.TabularInline):
+    model = ProductSpecificationValue
 
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ['title', 'slug', 'price',
-                    'count', 'created', 'updated']
-    list_filter = ['count', 'is_active']
-    list_editable = ['price', 'count']
-    prepopulated_fields = {'slug': ('title',)}
-# Register your models here.
+    inlines = [
+        ProductSpecificationValueInline,
+        ProductImageInline,
+    ]
