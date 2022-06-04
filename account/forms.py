@@ -7,7 +7,7 @@ from .models import Customer, Address
 class UserAddressForm(forms.ModelForm):
     class Meta:
         model = Address
-        fields = ["full_name", "phone", "address_line", "address_line2", "town_city", "postcode"]
+        fields = ["full_name", "phone", "region", "city", "post_office_or_shop"]
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -15,19 +15,15 @@ class UserAddressForm(forms.ModelForm):
             {"class": "form-control mb-2 account-form", "placeholder": "Full Name"}
         )
         self.fields["phone"].widget.attrs.update({"class": "form-control mb-2 account-form", "placeholder": "Phone"})
-        self.fields["address_line"].widget.attrs.update(
+        self.fields["region"].widget.attrs.update(
             {"class": "form-control mb-2 account-form", "placeholder": "Full Name"}
         )
-        self.fields["address_line2"].widget.attrs.update(
+        self.fields["city"].widget.attrs.update(
             {"class": "form-control mb-2 account-form", "placeholder": "Full Name"}
         )
-        self.fields["town_city"].widget.attrs.update(
+        self.fields["post_office_or_shop"].widget.attrs.update(
             {"class": "form-control mb-2 account-form", "placeholder": "Full Name"}
         )
-        self.fields["postcode"].widget.attrs.update(
-            {"class": "form-control mb-2 account-form", "placeholder": "Full Name"}
-        )
-
 
 
 class UserLoginForm(AuthenticationForm):

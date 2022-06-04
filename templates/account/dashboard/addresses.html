@@ -39,10 +39,9 @@
         </div>
         <div class="card-body small pb-1">
           <p class="card-text m-0 fw-bold">{{address.full_name}}</p>
-          <p class="card-text m-0">{{address.address_line}}</p>
-          <p class="card-text m-0">{{address.address_line2}}</p>
-          <p class="card-text m-0">{{address.town_city}}</p>
-          <p class="card-text m-0">{{address.postcode}}</p>
+          <p class="card-text m-0">{{address.region}}</p>
+          <p class="card-text m-0">{{address.city}}</p>
+          <p class="card-text m-0">{{address.post_office}}</p>
           <p class="card-text m-0">Phone number: {{address.phone}}</p>
           <div class="pt-5">
             <a href="{% url 'account:edit_address' address.id %}" class="text-decoration-none">Edit</a>

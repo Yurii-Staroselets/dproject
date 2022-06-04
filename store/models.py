@@ -3,6 +3,7 @@ from django.db import models
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from mptt.models import MPTTModel, TreeForeignKey
+from django.utils.text import slugify
 
 
 class Category(MPTTModel):
@@ -26,6 +27,10 @@ class Category(MPTTModel):
     class Meta:
         verbose_name = _("Category")
         verbose_name_plural = _("Categories")
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super(Category, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
         return reverse("store:category_list", args=[self.slug])
@@ -104,6 +109,7 @@ class Product(models.Model):
         max_digits=5,
         decimal_places=2,
     )
+    count = models.IntegerField(default=1)
     is_active = models.BooleanField(
         verbose_name=_("Product visibility"),
         help_text=_("Change product visibility"),
@@ -117,6 +123,10 @@ class Product(models.Model):
         ordering = ("-created_at",)
         verbose_name = _("Product")
         verbose_name_plural = _("Products")
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+        super(Product, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
         return reverse("store:product_detail", args=[self.slug])
